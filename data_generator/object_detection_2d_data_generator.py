@@ -17,6 +17,7 @@ limitations under the License.
 '''
 
 from __future__ import division
+from config import cfg
 import numpy as np
 import inspect
 from collections import defaultdict
@@ -449,6 +450,7 @@ class DataGenerator:
         self.image_set_filenames = image_set_filenames
         self.classes = classes
         self.include_classes = include_classes
+        self.class_to_id = cfg.class_to_id
 
         # Erase data that might have been parsed before.
         self.filenames = []
@@ -490,13 +492,15 @@ class DataGenerator:
                     # Parse the data for each object.
                     for obj in objects:
                         class_name = obj.find('name', recursive=False).text
-                        class_id = self.classes.index(class_name)
+#                        class_id = self.classes.index(class_name)
+                        class_id = self.class_to_id[class_name]
                         # Check whether this class is supposed to be included in the dataset.
-                        if (not self.include_classes == 'all') and (not class_id in self.include_classes): continue
+                        if (not self.include_classes == 'all') and (not class_name in self.include_classes): continue
                         pose = obj.find('pose', recursive=False).text
                         truncated = int(obj.find('truncated', recursive=False).text)
                         if exclude_truncated and (truncated == 1): continue
-                        difficult = int(obj.find('difficult', recursive=False).text)
+#                        difficult = int(obj.find('difficult', recursive=False).text)
+                        difficult = 0
                         if exclude_difficult and (difficult == 1): continue
                         # Get the bounding box coordinates.
                         bndbox = obj.find('bndbox', recursive=False)
