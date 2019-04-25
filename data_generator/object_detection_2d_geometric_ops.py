@@ -32,7 +32,7 @@ class Resize:
     def __init__(self,
                  height,
                  width,
-                 interpolation_mode=cv2.INTER_AREA,
+                 interpolation_mode=cv2.INTER_LINEAR,
                  box_filter=None,
                  labels_format={'class_id': 0, 'xmin': 1, 'ymin': 2, 'xmax': 3, 'ymax': 4}):
         '''

@@ -1017,6 +1017,7 @@ class DataGenerator:
             else:
                 batch_filenames = self.filenames[current:current+batch_size]
                 for filename in batch_filenames:
+#                    print(filename)
                     with Image.open(filename) as image:
                         batch_X.append(np.array(image, dtype=np.uint8))
 
